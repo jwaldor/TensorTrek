@@ -36,9 +36,11 @@ router.get("/enemy/:name", async (ctx, _next) => {
     const filePath = path.join(process.cwd(), `./public/ai-gen/${ctx.params.name}`);
     if (!fs.existsSync(filePath)) {
         ctx.status = 404;
-        ctx.body = 'File not found';
+        ctx.body = 'PNG file not found';
         return;
     }
+    ctx.set('Content-Type', 'image/png');
+    ctx.type = 'image/png';
     ctx.body = fs.createReadStream(filePath);
 });
 
