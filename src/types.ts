@@ -1,12 +1,13 @@
 import Phaser from 'phaser';
 type DamageType = 'fire' | 'ice' | 'earth' | 'air' | 'lightning' | 'poison' | 'railgun' | 'normal';
 
-interface Enemy {
+export interface Enemy {
+    id: string;
     // Basic properties
     name: string;
     speed: number;
     size: number;
-    sprite: Phaser.GameObjects.Sprite;
+    spriteUrl: string;
     projectileSpeed: number; //min is 1, max is 20
     damage: number; //min is 1, max is 20
     health: number; //min is 1, max is 20
@@ -35,4 +36,3 @@ interface Enemy {
     takeDamage(amount: number): void;
     die(): void;
 }
-
