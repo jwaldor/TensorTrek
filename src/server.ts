@@ -65,8 +65,8 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
         enemies.push({
             id: `enemy${i}`,
             name: `Enemy ${i}`,
-            speed: Math.floor(Math.random() * 20),
-            size: Math.floor(Math.random() * 20),
+            speed: Math.floor(Math.random() * 4) + 1,
+            size: Math.floor(Math.random() * 4) + 1,
             spriteUrl: `http://localhost:3000/enemy/${sprites[i% (sprites.length)]}.png`,
             sprite: '',
             projectileSpeed: Math.floor(Math.random() * 20) + 1,

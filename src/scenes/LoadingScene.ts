@@ -119,7 +119,11 @@ export class LoadingScene extends Scene {
                 this.button.disableInteractive();
                 this.button.setText('Loading...');
                 this.setupProgressBar();
-                await this.loadEnemies();
+                const enemies = await this.loadEnemies();
+                levels.push({
+                    enemies,
+                    backgroundUrl: 'assets/background.png',
+                });
                 this.state = 'done';
                 this.button.setInteractive();
                 this.button.setText('Begin!');

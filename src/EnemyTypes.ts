@@ -52,6 +52,9 @@ class BaseEnemy /*implements Enemy*/ {
         this.scene = scene;
         console.log("this.scene",this.scene);
         this.renderObj = this.scene?.physics.add.sprite(initX, initY, enemyType.id) || null;
+        const dim = 32 * (enemyType.size / 3);
+        this.renderObj.displayWidth = dim;
+        this.renderObj.displayHeight = dim;
         this.scene.physics.add.collider(this.scene.platforms, this.renderObj);
         this.scene.physics.add.collider(this.scene.player, this.renderObj);
     }
@@ -127,4 +130,3 @@ export interface Level {
 }
 
 export default BaseEnemy;
-
