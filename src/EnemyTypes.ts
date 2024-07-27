@@ -57,12 +57,6 @@ class BaseEnemy /*implements Enemy*/ {
         this.renderObj.displayHeight = dim;
         this.scene.physics.add.collider(this.scene.platforms, this.renderObj);
         this.scene.physics.add.collider(this.scene.player, this.renderObj);
-        this.scene.time.addEvent({
-            delay: 1000+Math.random()*1000,
-            callback: () => {
-                this.renderObj.setVelocityY(Math.random()*500);
-            }
-        });
     }
 
     move(player?: Phaser.GameObjects.Sprite) {

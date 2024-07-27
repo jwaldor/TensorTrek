@@ -1,6 +1,7 @@
 import BaseEnemy, {Enemy,DamageType} from '../EnemyTypes';
 import { levels } from './LoadingScene';
 
+let timer: any;
 class Platformer extends Phaser.Scene
 {
     scoreText: any;
@@ -115,6 +116,17 @@ class Platformer extends Phaser.Scene
         this.physics.add.overlap(this.player, this.stars, this.collectStar, undefined, this);
 
         this.spawnEnemies();
+        timer = this.time.addEvent({
+            delay: 400+Math.random()*500,
+            loop: true,
+            callback: () => {
+                console.log(`JUMP!!`)
+                const randomIndex = Math.floor(Math.random() * this.enemies.length);
+                if (this.enemies[randomIndex]) {
+                    this.enemies[randomIndex].renderObj.setVelocityY(5000);
+                }
+            }
+        });
     }
 
     spawnEnemies() {

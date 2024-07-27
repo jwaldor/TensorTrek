@@ -56,7 +56,7 @@ app.listen(3000, () => {
 
 async function generateEnemies(count: number, setting: string): Promise<Enemy[]> {
     const enemies: Enemy[] = [];
-    const sprites = ["enemy-dog", "enemy-cat", "enemy-monkey"];
+    const sprites = ["enemy-dog", "enemy-cat", "enemy-monkey", "enemy-slime", "enemy-penguin", "enemy-rabbit"];
     for (let i = 0; i < count; i++) {
         // create enemy from TS schema and setting
         // call layer.ai

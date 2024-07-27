@@ -2,7 +2,7 @@ import { Scene } from "phaser";
 import { Enemy, Level } from "../EnemyTypes";
 
 const enemiesEndpoint = "http://localhost:3000/enemies";
-const enemyEndpoint = "http://localhost:3000/enemy";
+// const enemyEndpoint = "http://localhost:3000/enemy";
 
 export const enemyDb: Record<string, Enemy> = {};
 export const levels: Level[] = [];
@@ -23,7 +23,7 @@ export class LoadingScene extends Scene {
         const enemies: Enemy[] = await this.fetchEnemies();
         console.log(`Received enemies: ${JSON.stringify(enemies)}`)
 
-        this.load.setBaseURL(enemyEndpoint);
+        // this.load.setBaseURL(enemyEndpoint);
         enemies.forEach((enemy) => {
             if (enemy.id in enemies) {
                 console.log(`Duplicate enemy ${enemy.id}: ${enemy.name}`);
@@ -46,7 +46,7 @@ export class LoadingScene extends Scene {
 
     private async fetchEnemies(): Promise<Enemy[]> {
         const params = {
-            count: "3",
+            count: "6",
             setting: levelDescription
         };
         const url = new URL(enemiesEndpoint);
