@@ -36,9 +36,11 @@ router.get("/enemy/:name", async (ctx, _next) => {
     const filePath = path.join(process.cwd(), `./public/ai-gen/${ctx.params.name}`);
     if (!fs.existsSync(filePath)) {
         ctx.status = 404;
-        ctx.body = 'File not found';
+        ctx.body = 'PNG file not found';
         return;
     }
+    ctx.set('Content-Type', 'image/png');
+    ctx.type = 'image/png';
     ctx.body = fs.createReadStream(filePath);
 });
 
@@ -56,6 +58,10 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
     const enemies: Enemy[] = [];
     const sprites = ["enemy-dog", "enemy-cat", "enemy-monkey"];
     for (let i = 0; i < count; i++) {
+        // create enemy from TS schema and setting
+        // call layer.ai
+        // dl into ai-gen directory
+        // populate url field
         enemies.push({
             id: `enemy${i}`,
             name: `Enemy ${i}`,
