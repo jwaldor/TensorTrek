@@ -23,7 +23,10 @@ class Platformer extends Phaser.Scene
         const dudeTexture = this.textures.get('dude');
         console.log("dudeTexture", dudeTexture);
 
-        this.add.image(400, 300, 'sky');
+        const sky = this.add.image(0, 0, 'sky');
+        sky.setOrigin(0, 0);
+        sky.setDisplaySize(this.sys.game.config.width as number, this.sys.game.config.height as number);
+
 
         this.platforms = this.physics.add.staticGroup();
 
