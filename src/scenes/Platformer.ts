@@ -118,7 +118,7 @@ class Platformer extends Phaser.Scene
     }
 
     spawnEnemies() {
-        const enemiesToSpawn = 2;
+        const enemiesToSpawn = 4;
         let currentLevel = levels.at(-1);
         const placeholderEnemy: Enemy = {
         // Basic properties

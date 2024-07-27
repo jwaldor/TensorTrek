@@ -65,7 +65,8 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
         enemies.push({
             id: `enemy${i}`,
             name: `Enemy ${i}`,
-            speed: Math.floor(Math.random() * 4) + 1,
+            // speed: (Math.floor(Math.random() * 3) + 1) * 100,
+            speed: 100,
             size: Math.floor(Math.random() * 4) + 1,
             spriteUrl: `http://localhost:3000/enemy/${sprites[i% (sprites.length)]}.png`,
             sprite: '',
@@ -74,7 +75,7 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
             health: Math.floor(Math.random() * 20) + 1,
             personality: 'Aggressive',
             originStory: `Originated from ${setting}`,
-            movementBehavior: 'zigzag',
+            movementBehavior: 'chase',
             attackRange: Math.floor(Math.random() * 100),
             attackCooldown: Math.floor(Math.random() * 10) + 1,
             experienceValue: Math.floor(Math.random() * 100),

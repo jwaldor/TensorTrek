@@ -52,11 +52,17 @@ class BaseEnemy /*implements Enemy*/ {
         this.scene = scene;
         console.log("this.scene",this.scene);
         this.renderObj = this.scene?.physics.add.sprite(initX, initY, enemyType.id) || null;
-        const dim = 32 * (enemyType.size / 3);
+        const dim = 64 * (enemyType.size / 3);
         this.renderObj.displayWidth = dim;
         this.renderObj.displayHeight = dim;
         this.scene.physics.add.collider(this.scene.platforms, this.renderObj);
         this.scene.physics.add.collider(this.scene.player, this.renderObj);
+        this.scene.time.addEvent({
+            delay: 1000+Math.random()*1000,
+            callback: () => {
+                this.renderObj.setVelocityY(Math.random()*500);
+            }
+        });
     }
 
     move(player?: Phaser.GameObjects.Sprite) {
@@ -88,7 +94,7 @@ class BaseEnemy /*implements Enemy*/ {
             player.y
         );
 
-        const velocityX = Math.cos(angle) * this.enemyType.speed;
+        const velocityX = Math.cos(angle) * (this.enemyType.speed / 2);
 
         this.renderObj.setVelocityX(velocityX);
         console.log(`Setting self velocity to ${velocityX}`);
