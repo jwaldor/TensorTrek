@@ -1,4 +1,5 @@
 import { Boot } from './scenes/Boot';
+import { LoadingScene } from './scenes/LoadingScene';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
@@ -23,7 +24,8 @@ const config: Types.Core.GameConfig = {
         Preloader,
         MainMenu,
         Platformer,
-        GameOver
+        GameOver,
+        LoadingScene
     ],
     physics: {
         default: 'arcade',
@@ -31,7 +33,10 @@ const config: Types.Core.GameConfig = {
             gravity: { y: 300, x: 0 },
             debug: false
         }
-    }
+    },
+    dom: {
+        createContainer: true
+    },
 };
 
 export default new Game(config);

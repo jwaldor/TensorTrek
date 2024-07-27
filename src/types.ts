@@ -8,6 +8,7 @@ export interface Enemy {
     speed: number;
     size: number;
     spriteUrl: string;
+    sprite: Phaser.GameObjects.Sprite | null;
     projectileSpeed: number; //min is 1, max is 20
     damage: number; //min is 1, max is 20
     health: number; //min is 1, max is 20
@@ -36,3 +37,11 @@ export interface Enemy {
     takeDamage(amount: number): void;
     die(): void;
 }
+
+export interface Level {
+    description: string;
+    enemies: Enemy[];
+    backgroundUrl: string;
+    background: Phaser.GameObjects.Image | null;
+}
+
