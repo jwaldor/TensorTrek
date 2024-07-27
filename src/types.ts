@@ -36,8 +36,3 @@ interface Enemy {
     die(): void;
 }
 
-// Example usage:
-class BasicEnemy implements Enemy {
-    // Implement the properties and methods here
-    // ...
-}
