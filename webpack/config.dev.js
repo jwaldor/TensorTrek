@@ -1,9 +1,9 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
-const webpack = require("webpack");
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import webpack from "webpack";
 
-module.exports = {
+export default {
     mode: "development",
     devtool: "eval-source-map",
     entry: "./src/main.ts",
@@ -41,7 +41,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: [path.join(__dirname, "dist/**/*")]
+            cleanOnceBeforeBuildPatterns: [new URL("dist/**/*", import.meta.url).pathname]
         }),
         new webpack.DefinePlugin({
             "typeof CANVAS_RENDERER": JSON.stringify(true),
