@@ -2,11 +2,13 @@ import Phaser from 'phaser';
 export type DamageType = 'fire' | 'ice' | 'earth' | 'air' | 'lightning' | 'poison' | 'railgun' | 'normal';
 
 export interface Enemy {
+    id: string;
     // Basic properties
     name: string;
     speed: number;
     size: number;
     sprite: string;
+    spriteUrl: string;
     projectileSpeed: number; //min is 1, max is 20
     damage: number; //min is 1, max is 20
     health: number; //min is 1, max is 20
@@ -29,65 +31,35 @@ export interface Enemy {
     canJump: boolean;
     canTeleport: boolean;
 
-    initX: number;
-    initY: number;
-    scene: Phaser.Scene;
-    renderObj: Phaser.Physics.Arcade.Sprite;
-    // Methods
-    move(): void;
-    attack(): void;
-    takeDamage(amount: number): void;
-    die(): void;
 }
 
-class BaseEnemy implements Enemy {
-    // Basic properties
-    name: string;
-    speed: number;
-    size: number;
-    projectileSpeed: number; //min is 1, max is 20
-    damage: number; //min is 1, max is 20
-    health: number; //min is 1, max is 20
-    sprite: string; // Add this line
-    // Personality and story
-    personality: string;
-    originStory: string;
-
-    // Movement behavior
-    movementBehavior: 'linear' | 'zigzag' | 'circular' | 'chase';
-
-    // Additional properties
-    attackRange: number;
-    attackCooldown: number;
-    experienceValue: number;
-    // lootTable: string[];
-    weaknesses: DamageType[];
-    strengths: DamageType[];
-    canFly: boolean;
-    canJump: boolean;
-    canTeleport: boolean;
-
+class BaseEnemy /*implements Enemy*/ {
     initX: number;
     initY: number;
-    scene: Phaser.Scene;
+    health: number = 100;
+    scene: any;
     renderObj: Phaser.Physics.Arcade.Sprite;
+    enemyType: Enemy;
     constructor({
         initX,
         initY,
-        sprite,
-        ...enemyProps
-    }: Enemy) {
-        Object.assign(this, enemyProps);
+        enemyType,
+        scene,
+    }: any) {
+        this.enemyType = enemyType;
+        this.initX = initX;
+        this.initY = initY;
+        this.scene = scene;
         console.log("this.scene",this.scene);
-        this.renderObj = this.scene.physics.add.sprite(initX, initY, sprite);
+        this.renderObj = this.scene?.physics.add.sprite(initX, initY, enemyType.id) || null;
+        this.scene.physics.add.collider(this.scene.platforms, this.renderObj);
+        this.scene.physics.add.collider(this.scene.player, this.renderObj);
     }
-    // constructor(scene: Phaser.Scene, x: number, y: number) {
-    //     this.sprite = scene.physics.add.sprite(x, y, texture);
-    //     // Initialize other properties here
-    // }
 
     move(player?: Phaser.GameObjects.Sprite) {
-        switch (this.movementBehavior) {
+        console.log(`Moving!`);
+        console.log(`Movement behavior: ${this.enemyType.movementBehavior}`);
+        switch (this.enemyType.movementBehavior) {
             case 'chase':
                 if (player) {
                     this.moveTowardsPlayer(player);
@@ -113,15 +85,16 @@ class BaseEnemy implements Enemy {
             player.y
         );
 
-        const velocityX = Math.cos(angle) * this.speed;
-        const velocityY = Math.sin(angle) * this.speed;
+        const velocityX = Math.cos(angle) * this.enemyType.speed;
 
         this.renderObj.setVelocityX(velocityX);
-        this.renderObj.setVelocityY(velocityY);
+        console.log(`Setting self velocity to ${velocityX}`);
     }
 
     private moveLinear() {
-        // Implement linear movement
+        // Assuming a fixed direction for linear movement, e.g., along the x-axis
+        this.renderObj.setVelocityX(this.enemyType.speed);
+        this.renderObj.setVelocityY(0);
     }
 
     private moveZigzag() {
@@ -148,4 +121,10 @@ class BaseEnemy implements Enemy {
     }
 }
 
+export interface Level {
+    enemies: Enemy[];
+    backgroundUrl: string;
+}
+
 export default BaseEnemy;
+

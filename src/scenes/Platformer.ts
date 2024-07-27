@@ -1,5 +1,5 @@
 import BaseEnemy, {Enemy,DamageType} from '../EnemyTypes';
-
+import { levels } from './LoadingScene';
 
 class Platformer extends Phaser.Scene
 {
@@ -9,7 +9,7 @@ class Platformer extends Phaser.Scene
     platforms: any;
     stars: any;
     player: any;
-    enemies: Enemy[] = [];
+    enemies: BaseEnemy[] = [];
     alreadyRendered: boolean = false; // Declare as a class property
     constructor () {
         super('Platformer' );
@@ -113,14 +113,21 @@ class Platformer extends Phaser.Scene
         this.physics.add.collider(this.stars, this.platforms);
 
         this.physics.add.overlap(this.player, this.stars, this.collectStar, undefined, this);
+
+        this.spawnEnemies();
     }
 
-    spawnEnemies(enemyTypes: any = [{
+    spawnEnemies() {
+        const enemiesToSpawn = 10;
+        let currentLevel = levels.at(-1);
+        const placeholderEnemy: Enemy = {
         // Basic properties
+        id: 'bomb',
         name: "Shadow Stalker",
-        speed: 5,
+        speed: 100,
         size: 2,
         sprite: "bomb",
+        spriteUrl: "baz",
         projectileSpeed: 15,
         damage: 8,
         health: 50,
@@ -141,28 +148,27 @@ class Platformer extends Phaser.Scene
         canFly: false,
         canJump: true,
         canTeleport: true,
-
-    }]) {
-        const currentTime = this.time.now / 1000; // Convert milliseconds to seconds
-        if (!this.alreadyRendered && currentTime % 10 >= 0 && currentTime % 10 < 1) {
-            this.alreadyRendered = true; // Use this.alreadyRendered
-            console.log("enemyTypes", enemyTypes);
-            enemyTypes.forEach((enemyType: any) => {
-                const x = this.player.x + 200;
-                const y = this.player.y + 200;
-                console.log(this,"this",this,this.physics)
-                this.enemies.push(new BaseEnemy({
-                    ...enemyType,
-                    initX: x,
-                    initY: y,
-                    scene: this
-                }));
-            });
+    };
+        if(!currentLevel) {
+            currentLevel = {enemies: [placeholderEnemy], backgroundUrl: "placeholderbg.png"};
         }
-        else {
-            this.alreadyRendered = false; // Use this.alreadyRendered
-        }
-        
+        currentLevel.enemies.forEach((enemy: Enemy) => {
+            for (let i = 0; i < enemiesToSpawn; i++) {
+                const xOffset = Phaser.Math.Between(-100, 100);
+                const yOffset = Phaser.Math.Between(-100, 100);
+                // const xOffset = 100;
+                // const yOffset = 100;
+                const newEnemy = new BaseEnemy({
+                    initX: this.player.x + xOffset,
+                    initY: this.player.y + yOffset,
+                    scene: this,
+                    enemyType: enemy,
+                });
+                console.log(`Scene is ${this}`);
+                console.log(`Creating enemy ${enemy.name} at ${xOffset}, ${yOffset}`);
+                this.enemies.push(newEnemy);
+            }
+        });
     }
 
     update ()
@@ -191,7 +197,7 @@ class Platformer extends Phaser.Scene
             this.player.setVelocityY(-400);
         }
 
-        this.spawnEnemies();
+        this.enemies.forEach((e: BaseEnemy) => e.move(this.player));
     }
 
     collectStar (_player: any, star: any)

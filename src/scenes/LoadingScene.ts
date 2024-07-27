@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import { Enemy, Level } from "../types";
+import { Enemy, Level } from "../EnemyTypes";
 
 const enemiesEndpoint = "http://localhost:3000/enemies";
 const enemyEndpoint = "http://localhost:3000/enemy";

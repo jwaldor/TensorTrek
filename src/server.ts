@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import Router from '@koa/router';
 import bodyParser from '@koa/bodyparser';
-import { Enemy } from './types';
+import { Enemy } from './EnemyTypes';
 import * as fs from "fs";
 import path from 'path';
 
@@ -68,7 +68,7 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
             speed: Math.floor(Math.random() * 20),
             size: Math.floor(Math.random() * 20),
             spriteUrl: `http://localhost:3000/enemy/${sprites[i% (sprites.length)]}.png`,
-            sprite: null,
+            sprite: '',
             projectileSpeed: Math.floor(Math.random() * 20) + 1,
             damage: Math.floor(Math.random() * 20) + 1,
             health: Math.floor(Math.random() * 20) + 1,
@@ -83,10 +83,10 @@ async function generateEnemies(count: number, setting: string): Promise<Enemy[]>
             canFly: false,
             canJump: true,
             canTeleport: false,
-            move: () => {},
-            attack: () => {},
-            takeDamage: (_) => {},
-            die: () => {}
+            // move: () => {},
+            // attack: () => {},
+            // takeDamage: (_) => {},
+            // die: () => {}
         });
     }
     return enemies;
